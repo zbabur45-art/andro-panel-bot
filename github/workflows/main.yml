@@ -1,0 +1,33 @@
+name: Update M3U List
+
+on:
+  schedule:
+    - cron: '0 */3 * * *' # Her 3 saatte bir çalışır
+  workflow_dispatch:      # İstediğinde manuel çalıştırmak için butonu aktif eder
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run script
+        run: python deathless-andro-panel.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add DeaTHLesS-andro-panel.m3u
+          git commit -m "Update IPTV List" || echo "No changes to commit"
+          git push
