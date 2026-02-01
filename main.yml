@@ -1,0 +1,33 @@
+name: Andro Panel Otomatik Guncelleme
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # 6 saatte bir otomatik calisir
+  workflow_dispatch:      # Manuel calistirma butonu
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodlari Cek
+        uses: actions/checkout@v3
+
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Kutuphaneleri Yukle
+        run: |
+          pip install -r requirements.txt
+
+      - name: Scripti Calistir
+        run: python deathless-andro-panel.py
+
+      - name: Degisiklikleri Kaydet
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add DeaTHLesS-andro-panel.m3u
+          git commit -m "Liste Guncellendi: $(date)" || echo "Degisiklik yok"
+          git push
