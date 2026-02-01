@@ -2,7 +2,7 @@ name: Andro Panel Otomatik Guncelleme
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # 6 saatte bir otomatik calisir
+    - cron: '0 */3 * * *' # 6 saatte bir otomatik calisir
   workflow_dispatch:      # Manuel calistirma butonu
 
 jobs:
